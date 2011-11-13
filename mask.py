@@ -13,16 +13,6 @@ import sys
 
 output_file_name = "oxygen_log.csv"
 
-#print "Today is day", time.localtime()[7], "of the current year" 
-# Today is day 218 of the current year
-
-#today = datetime.date.today()
-#print "Today is day", today.timetuple()[7], "of ", today.year
-# Today is day 218 of 2003
-
-#print "Today is day", today.strftime("%j"), "of the current year" 
-# Today is day 218 of the current year
-
 if (sys.argv[1] == "start"):
     output = open(output_file_name,'a')
     print "Mask on!"
@@ -45,7 +35,7 @@ if (sys.argv[1] == "stop"):
     from datetime import datetime
     FMT = '%H:%M:%S'
     tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
-    print 'Mask off! You wore your mask on Pandora from ' + on + ' to ' + off + ' and survived for a total of ' + str(tdelta) + '.'
+    print 'Mask off! You wore your mask on Pandora from ' + on.replace(", ", "") + ' to ' + off + ' and survived for a total of ' + str(tdelta) + '.'
     #print (lineList[-1])
     comment = sys.argv[3]
     project = sys.argv[2]
