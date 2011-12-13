@@ -21,6 +21,7 @@ import random
 output_file_name = "oxygen_log.csv"
 
 def help():
+    print
     print "-------------------Help Desk-------------------"
     print
     print "--begin <project> [last]/[%d | backtime]"
@@ -29,9 +30,10 @@ def help():
     print "--pause [%d | backtime]"
     print "--search <project> [print]"
     print "--hiwi [print]/[%d | total to work] "
-    print "--today"
+    print "--today [-][project]"
     print
     print "-----------------------------------------------"
+    print
 
 def print_time_labels(input_time):
     if len(input_time) == 16:
@@ -70,11 +72,13 @@ def random_navi_animal():
     return str(animal[random.randrange(len(animal)-1)])
 
 def test():
-    print random_navi_animal()
+   print "Looks like you're not testing anything at the moment."
 
 def begin():
     f = open(output_file_name,'a')
+    print
     print "Mask on!"
+    print
     time_now = datetime.datetime.now()
     try:
         pattern = re.compile("\d+")
@@ -368,7 +372,7 @@ def hiwi():
     print "-----------------------------------------------------------------------------"
     print ""
 
-def what_do_today():
+def today():
     from datetime import datetime
     from datetime import timedelta
     f = open(output_file_name, 'r')
@@ -432,7 +436,7 @@ def what_do_today():
                         specific_job = line[1]
                         specific_job_catch = "only"
             except: specific_job = "essential work"
-    productivity_measure = (float(total_time[:2])*60+float(total_time[3:5]))/480*100
+    productivity_measure = (float(total_time[:2])*60+float(total_time[3:5]))/504*100
     print
     print "You have worked a total of %s today." % print_time_labels(total_time)
     print "(But you've logged %s.)" % print_time_labels(logged_time)
@@ -451,7 +455,7 @@ if __name__ == "__main__":
     if (sys.argv[1] == "test"):
         test()
     if (sys.argv[1] == "today"):
-        what_do_today()
+        today()
     if (sys.argv[1] == "hiwi"):
         hiwi()
     if (sys.argv[1] == "search"):
@@ -468,8 +472,27 @@ if __name__ == "__main__":
         help()
 '''
 To do:
-    - add in a count to function - say, 7 hours. you have __ left. 
     - add a yesterday() !
     - integrate with an SQL database, make the comment feature better. 
-    - fix the problem with the non-work counts in today. 
+    - Add in a thing about weekly estimates.
+    - Add in a backtime manual adder. 
+
+Foundations         9 = 1.5x3 = 4.5 hours of classes, 4.5 hours of homework
+Syntactic Theory    6 = 1.5x2 = 3 hours of classes, 3 hours of homework
+CL4LRL              7 = 1.5 = 5.5 hours of homework
+Stats. in Ling.     3 = 
+PSR                 6 = 1.5x2 = 3 hours of class, 3 hours of homework
+
+In total, that makes for 4.5+3+1.5+3 = 12 hours of class a week.
+Homework = 4.5+3+5.5+3 = 15 hours of homework a week.
+
+Uni: 28pw
+Hiwi: 14pw
+
+Total: 42pw
+
+8.4 hours per day. 
+
+That's an 8 hour workday, which isn't so hard. 8:30-6:30 is a ten hour day. So, you have two spare hours.  
+
 '''
