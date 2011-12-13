@@ -8,16 +8,19 @@ python mask.py begin <project>
 python mask.py status
 python mask.py end <project> <comment>
 """
-
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import os
 import time
 import datetime
 import sys
 import re
 import dis
+import random
 
 output_file_name = "oxygen_log.csv"
 
-if (sys.argv[1] == "help"):
+def help():
     print "-------------------Help Desk-------------------"
     print
     print "--begin <project> [last]/[%d | backtime]"
@@ -59,7 +62,17 @@ def print_time_labels(input_time):
         output = "%s %s and %s %s" % (hours, hour_string, minutes, minute_string)
     return output
 
-if (sys.argv[1] == "begin"):
+def random_navi_animal():
+    animal = ["'angts\xcck", "eltungawng", "ngawng", "fpxafaw", "ikran",
+            "ikranay", "kali'weya", "lenay'ga", "lonataya", "nantang",
+            "pa'li", "palulukan", "riti", "talioang", "teylu", "toruk",
+            "yerik", "yomh\xcc'ang", "hi'ang", "zize'"]
+    return str(animal[random.randrange(len(animal)-1)])
+
+def test():
+    print random_navi_animal()
+
+def begin():
     f = open(output_file_name,'a')
     print "Mask on!"
     time_now = datetime.datetime.now()
@@ -92,11 +105,12 @@ if (sys.argv[1] == "begin"):
     f.close()
 
 
-if (sys.argv[1] == "end"):
+def end():
     f = open(output_file_name, 'r+')
+    from datetime import datetime
     lineList = f.readlines()
     on = lineList[-1]
-    off = datetime.datetime.now()
+    off = datetime.now()
     try:
         pattern = re.compile("\d+")
         match_o = re.match(pattern, sys.argv[4])
@@ -109,18 +123,27 @@ if (sys.argv[1] == "end"):
     except:
         x = "This is a filler. You are in real time."
     off = str(off)
-    from datetime import datetime
     FMT = '%H:%M:%S'
     tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
     total_time = str(tdelta)
+    print
+    print "---------------------------------End------------------------------------"
     print 'Mask off!'
-    print 'You were on the surface of Pandora from: ' + on[:19] + ' to ' + off[:19] + '.'
+    print 'You were on the surface of Pandora from: ' + on[:19] + ' to ' + off[11:19] + '.'
     time_labels = print_time_labels(total_time)
-    print "You survived for %s." % time_labels
     comment = sys.argv[3]
     project = sys.argv[2]
+    try:
+        pattern = re.compile("\d+")
+        match_o = re.match(pattern, comment)
+        if (match_o != None):
+                print "You survived for %s, and killed like %s nantangs." % (time_labels, match_o.group())
+        if (match_o == None):
+                print "You survived for %s." % time_labels
+    except: x = "moose"
     print 'Operation ' + project + ' is now terminated. Your activity report readout: '
     print comment
+    print "------------------------------------------------------------------------"
     f.write(str(off) + ", ")
     f.write(str(tdelta) + ", ")
     f.write(project + ", ")
@@ -129,13 +152,14 @@ if (sys.argv[1] == "end"):
     f.close()
 
 
-if (sys.argv[1] == "status"):
+def status():
     f = open(output_file_name, 'r')
     lineList = f.readlines()
     if lineList[-1][-2] != ",":
         f = open(output_file_name, 'r+')
         lineList = f.readlines()
         on = lineList[-1]
+        print 
         try:
             pattern_time = re.compile("\d\d:\d\d\:\d\d.\d+")
             match_o_time = re.search(pattern_time, on[29:])
@@ -148,8 +172,11 @@ if (sys.argv[1] == "status"):
                 time_since = str(time_since)
         except: x = "I am a whale"
         time_labels = print_time_labels(time_since)
-        print "You have not been working for %s. Last job:" % time_labels
-        print on
+        print "---------------------------------Status---------------------------------"
+        print "You have not been working for %s." % time_labels
+        print
+        on = on.split(', ')
+        print "Your last job, %s, lasted %s. Comment: \n%s" % (on[4], print_time_labels(on[3]), on[5])
         if len(time_since) >= 10:
             print "Good morning. You haven't started working yet today."
             print "Your last read out was: " + on.replace("\n","")
@@ -162,10 +189,12 @@ if (sys.argv[1] == "status"):
         tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
         on = lineList[-1].replace(", ", ". Your current Operation: ").replace(",", ".")
         print 'You are currently on project \'' + last_job + '\' in Pandora. Your last signal was at ' + on[:19] + '. Time alive: ' + str(tdelta) + '.'
+    print "------------------------------------------------------------------------"
+    print ""
     f.close()
 
 
-if (sys.argv[1] == "pause"):
+def pause():
     f = open(output_file_name, 'r+')
     lineList = f.readlines()
     on = lineList[-1]
@@ -194,12 +223,14 @@ if (sys.argv[1] == "pause"):
     f.close()
 
 
-if (sys.argv[1] == "search"):
+def search():
     f = open(output_file_name, 'r+')
     lineList = f.readlines()
     from datetime import datetime
     from datetime import timedelta
     total_time = "00:00:00"
+    print
+    print "---------------------------------Search---------------------------------"
     for line in lineList:
         pattern = re.compile(sys.argv[2])
         match_o = re.search(pattern, line)
@@ -214,13 +245,16 @@ if (sys.argv[1] == "search"):
                 total_time = str(total_time)[11:]
             try:
                 if (sys.argv[3] == "print"):
-                    print line.replace("\n", "")
+                    line = line.split(', ')
+                    line[5] = line[5].replace("\n", "")
+                    print line[0][5:11] + "for " + print_time_labels(line[3]) + ": " + line[5]
             except: x = "This is a filler."
-    print total_time
+    print "You have worked on %s for %s." % (sys.argv[2], print_time_labels(total_time))
+    print "------------------------------------------------------------------------"
+    print
     f.close()
 
-
-if (sys.argv[1] == "hiwi"):
+def hiwi():
     f = open(output_file_name, 'r+')
     lineList = f.readlines()
     from datetime import datetime
@@ -333,13 +367,14 @@ if (sys.argv[1] == "hiwi"):
     print "-----------------------------------------------------------------------------"
     print ""
 
-if (sys.argv[1] == "today"):
-    f = open(output_file_name, 'r')
-    lineList = f.readlines()
-    time_now = datetime.datetime.now()
-    print  
+def what_do_today():
     from datetime import datetime
     from datetime import timedelta
+    f = open(output_file_name, 'r')
+    lineList = f.readlines()
+    time_now = datetime.now()
+    print 
+    print "---------------------------------Today---------------------------------"
     total_time = "00:00:00"
     total_time_alt = "00:00:00"
     specific_job_catch = "empty"
@@ -381,14 +416,17 @@ if (sys.argv[1] == "today"):
                         specific_job_catch = "only"
             except: specific_job = "essential work"
             if (line[1] != "admin") and (line[1] != "off") and (line[1] != "coding"):
-                if sys.argv[2][0] == "-":
-                    if (line[1] != sys.argv[2]):
-                        FMT = '%H:%M:%S'
-                        tdelta = datetime.strptime(total_time, FMT) - datetime.strptime(line[3], FMT)
-                        total_time_alt = str(tdelta)
-                    specific_job = sys.argv[2][1:]
-                    specific_job_catch = "except"
+                try:
+                    if sys.argv[2][0] == "-":
+                        if (line[1] != sys.argv[2]):
+                            FMT = '%H:%M:%S'
+                            tdelta = datetime.strptime(total_time, FMT) - datetime.strptime(line[3], FMT)
+                            total_time_alt = str(tdelta)
+                        specific_job = sys.argv[2][1:]
+                        specific_job_catch = "except"
+                except: penguins = "still penguins"
     time_labels = print_time_labels(total_time)
+    print
     print "You have worked a total of %s today. " % time_labels
     if specific_job_catch == "except":
         time_labels = print_time_labels(total_time_alt)
@@ -396,13 +434,34 @@ if (sys.argv[1] == "today"):
     if specific_job_catch == "only":
         time_labels = print_time_labels(total_time_alt)
         print "Of that, you did %s for %s." % (specific_job, time_labels)
-    print
+    print "-----------------------------------------------------------------------"
+    print 
 
 
-
+if __name__ == "__main__":
+    if (sys.argv[1] == "test"):
+        test()
+    if (sys.argv[1] == "today"):
+        what_do_today()
+    if (sys.argv[1] == "hiwi"):
+        hiwi()
+    if (sys.argv[1] == "search"):
+        search()
+    if (sys.argv[1] == "pause"):
+        pause()
+    if (sys.argv[1] == "status"):
+        status()
+    if (sys.argv[1] == "end"):
+        end()
+    if (sys.argv[1] == "begin"):
+        begin()
+    if (sys.argv[1] == "help"):
+        help()
 '''
 
 To do:
     - review functions
-
+    - add in a count to function - say, 7 hours. you have __ left. 
+    - add a yesterday() !
+    
 '''
