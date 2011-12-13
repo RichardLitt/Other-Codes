@@ -131,7 +131,7 @@ def end():
     print 'Mask off!'
     print 'You were on the surface of Pandora from: ' + on[:19] + ' to ' + off[11:19] + '.'
     time_labels = print_time_labels(total_time)
-    comment = sys.argv[3]
+    comment = sys.argv[3].replace(', ', ',')
     project = sys.argv[2]
     try:
         pattern = re.compile("\d+")
@@ -154,19 +154,20 @@ def end():
 
 def status():
     f = open(output_file_name, 'r')
+    from datetime import datetime
     lineList = f.readlines()
     if lineList[-1][-2] != ",":
         f = open(output_file_name, 'r+')
         lineList = f.readlines()
         on = lineList[-1]
         print 
+        #Clean this us using split()
         try:
             pattern_time = re.compile("\d\d:\d\d\:\d\d.\d+")
             match_o_time = re.search(pattern_time, on[29:])
             if (match_o_time != None):
                 onn = match_o_time.group(0)
-                off = str(datetime.datetime.now())
-                from datetime import datetime
+                off = str(datetime.now())
                 FMT = '%H:%M:%S'
                 time_since = datetime.strptime(off[11:19], FMT) - datetime.strptime(onn[:8], FMT)
                 time_since = str(time_since)
@@ -175,7 +176,7 @@ def status():
         print "---------------------------------Status---------------------------------"
         print "You have not been working for %s." % time_labels
         print
-        on = on.split(', ')
+        on = on.replace('\n', '').split(', ')
         print "Your last job, %s, lasted %s. Comment: \n%s" % (on[4], print_time_labels(on[3]), on[5])
         if len(time_since) >= 10:
             print "Good morning. You haven't started working yet today."
@@ -377,7 +378,9 @@ def what_do_today():
     print "---------------------------------Today---------------------------------"
     total_time = "00:00:00"
     total_time_alt = "00:00:00"
+    logged_time = "00:00:00"
     specific_job_catch = "empty"
+    non_work = ["admin", "coding", "off", "dinner", "lunch", "break"]
     for line in lineList:
         line = line.replace('\n', '')
         today_date = str(time_now)[:10]
@@ -385,26 +388,40 @@ def what_do_today():
         match_o_time = re.match(pattern_time, line)
         if (match_o_time != None):
             line  = line.split(', ')
-            if len(line) == 3:
-                on = lineList[-1]
-                off = str(datetime.now())
-                from datetime import datetime
-                FMT = '%H:%M:%S'
-                tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
-                on = lineList[-1].replace(", ", ". Your current Operation: ").replace(",", ".")
-                worked = str(tdelta)
-                read_out = "Ongoing..."
+            if len(line) == 2:
+                for x in range(len(non_work)-1):
+                    if line[1] != non_work[x]:
+                        on = lineList[-1]
+                        off = str(datetime.now())
+                        from datetime import datetime
+                        FMT = '%H:%M:%S'
+                        tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
+                        on = lineList[-1].replace(", ", ". Your current Operation: ").replace(",", ".")
+                        worked = str(tdelta)
+                        read_out = "Ongoing..."
             if len(line) > 3:
-                worked = line[3]
-                read_out = line[5]
+                for x in range(len(non_work)-1):
+                    if line[1] != non_work[x]:
+                        worked = line[3]
+                        read_out = line[5]
             time_labels = print_time_labels(worked)
             print "%s for %s: %s" % (line[1], time_labels, read_out)
             FMT = '%H:%M:%S'
-            try:
-                if line[1] != "off":
+            lt = datetime.strptime(worked, FMT)
+            logged_time = datetime.strptime(str(logged_time), FMT) + timedelta(hours=lt.hour,minutes=lt.minute,seconds=lt.second)
+            logged_time = str(logged_time)[11:]
+            if line[1] not in non_work:
                     tt = datetime.strptime(worked, FMT)
                     total_time = datetime.strptime(str(total_time), FMT) + timedelta(hours=tt.hour,minutes=tt.minute,seconds=tt.second)
                     total_time = str(total_time)[11:]
+            try:
+                if sys.argv[2][0] == "-":
+                    if (line[1] != sys.argv[2]):
+                        FMT = '%H:%M:%S'
+                        tdelta = datetime.strptime(total_time, FMT) - datetime.strptime(line[3], FMT)
+                        total_time_alt = str(tdelta)
+                    specific_job = sys.argv[2][1:]
+                    specific_job_catch = "except"
             except: penguins = "penguins"
             try:
                 if sys.argv[2][0] != "-":
@@ -415,19 +432,11 @@ def what_do_today():
                         specific_job = line[1]
                         specific_job_catch = "only"
             except: specific_job = "essential work"
-            if (line[1] != "admin") and (line[1] != "off") and (line[1] != "coding"):
-                try:
-                    if sys.argv[2][0] == "-":
-                        if (line[1] != sys.argv[2]):
-                            FMT = '%H:%M:%S'
-                            tdelta = datetime.strptime(total_time, FMT) - datetime.strptime(line[3], FMT)
-                            total_time_alt = str(tdelta)
-                        specific_job = sys.argv[2][1:]
-                        specific_job_catch = "except"
-                except: penguins = "still penguins"
-    time_labels = print_time_labels(total_time)
+    productivity_measure = (float(total_time[:2])*60+float(total_time[3:5]))/480*100
     print
-    print "You have worked a total of %s today. " % time_labels
+    print "You have worked a total of %s today." % print_time_labels(total_time)
+    print "(But you've logged %s.)" % print_time_labels(logged_time)
+    print "So far, you have been %.2f%% productive." % productivity_measure
     if specific_job_catch == "except":
         time_labels = print_time_labels(total_time_alt)
         print "Of that, you did everything but %s for %s." % (specific_job, time_labels)
@@ -458,10 +467,9 @@ if __name__ == "__main__":
     if (sys.argv[1] == "help"):
         help()
 '''
-
 To do:
-    - review functions
     - add in a count to function - say, 7 hours. you have __ left. 
     - add a yesterday() !
-    
+    - integrate with an SQL database, make the comment feature better. 
+    - fix the problem with the non-work counts in today. 
 '''
