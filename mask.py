@@ -24,13 +24,14 @@ def help():
     print
     print "-------------------Help Desk-------------------"
     print
-    print "--begin <project> [last]/[%d | backtime]"
-    print "--end <project> <\"comment\"> [%d | backtime]" 
-    print "--status"
-    print "--pause [%d | backtime]"
-    print "--search <project> [print]"
-    print "--hiwi [print]/[%d | total to work] "
-    print "--today [-][project]"
+    print " begin <project> [last]/[%d | backtime]"
+    print " end <project> <\"comment\"> [%d | backtime]" 
+    print " status"
+    print " pause [%d | backtime]"
+    print " search <project> [print]"
+    print " hiwi [print]/[%d | total to work] "
+    print " today [-][project]"
+    print " yesterday"
     print
     print "-----------------------------------------------"
     print
@@ -78,7 +79,6 @@ def begin():
     f = open(output_file_name,'a')
     print
     print "Mask on!"
-    print
     time_now = datetime.datetime.now()
     try:
         pattern = re.compile("\d+")
@@ -87,7 +87,9 @@ def begin():
             today = datetime.datetime.now()
             min_change = datetime.timedelta(minutes=int(sys.argv[3]))
             time_adjust = today - min_change
+            print "-----------------------------------------------------------------------"
             print "You have just adjusted time backwards: " + str(time_now) + " is now " + str(time_adjust) + "."
+            print "-----------------------------------------------------------------------"
             time_now = time_adjust
     except: x = "There should be another option here."
     try:
@@ -101,8 +103,11 @@ def begin():
             match_o_time = re.search(pattern, on[27:])
             if (match_o_time != None):
                 time_now = str(time_now)[:10] + " " + match_o_time.group(0)
+                print "-----------------------------------------------------------------------"
                 print "You have just adjusted your start level from the last known signal, at " + time_now + "."
+                print "-----------------------------------------------------------------------"
     except: x = "This is a filler. You are in real time."
+    print
     f.write(str(time_now) + ", ")
     project = sys.argv[2]
     f.write(project + ", ")
@@ -130,6 +135,10 @@ def end():
     FMT = '%H:%M:%S'
     tdelta = datetime.strptime(off[11:19], FMT) - datetime.strptime(on[11:19], FMT)
     total_time = str(tdelta)
+    if len(total_time) == 15:
+        total_time = total_time[-7:]
+    if len(total_time) == 16:
+        total_time = total_time[-8:]
     print
     print "---------------------------------End------------------------------------"
     print 'Mask off!'
@@ -149,7 +158,7 @@ def end():
     print comment
     print "------------------------------------------------------------------------"
     f.write(str(off) + ", ")
-    f.write(str(tdelta) + ", ")
+    f.write(total_time + ", ")
     f.write(project + ", ")
     f.write(comment.replace("\"", "'"))
     f.write("\n")
@@ -450,6 +459,52 @@ def today():
     print "-----------------------------------------------------------------------"
     print 
 
+def yesterday():
+    from datetime import datetime
+    from datetime import timedelta
+    f = open(output_file_name, 'r')
+    lineList = f.readlines()
+    time_now = datetime.now()
+    print 
+    print "-----------------------------Yesterday---------------------------------"
+    total_time = "00:00:00"
+    total_time_alt = "00:00:00"
+    logged_time = "00:00:00"
+    specific_job_catch = "empty"
+    non_work = ["admin", "coding", "off", "dinner", "lunch", "break"]
+    for line in lineList:
+        line = line.replace('\n', '')
+        today_date = str(time_now)[:10]
+        if int(today_date[8:]) < 30:
+            modify_date = int(today_date[8:])-1
+            today_date = today_date[:8] + str(modify_date)
+        if int(today_date[8:]) >= 30: print "Uh. End of month. Awkward."
+        pattern_time = re.compile(str(today_date))
+        match_o_time = re.match(pattern_time, line)
+        if (match_o_time != None):
+            line  = line.split(', ')
+            for x in range(len(non_work)-1):
+                if line[1] != non_work[x]:
+                    worked = line[3]
+                    read_out = line[5]
+            time_labels = print_time_labels(worked)
+            print "%s for %s: %s" % (line[1], time_labels, read_out)
+            FMT = '%H:%M:%S'
+            lt = datetime.strptime(worked, FMT)
+            logged_time = datetime.strptime(str(logged_time), FMT) + timedelta(hours=lt.hour,minutes=lt.minute,seconds=lt.second)
+            logged_time = str(logged_time)[11:]
+            if line[1] not in non_work:
+                    tt = datetime.strptime(worked, FMT)
+                    total_time = datetime.strptime(str(total_time), FMT) + timedelta(hours=tt.hour,minutes=tt.minute,seconds=tt.second)
+                    total_time = str(total_time)[11:]
+    productivity_measure = (float(total_time[:2])*60+float(total_time[3:5]))/504*100
+    print
+    print "You worked a total of %s yesterday." % print_time_labels(total_time)
+    print "(But you logged %s.)" % print_time_labels(logged_time)
+    print "You were %.2f%% productive." % productivity_measure
+    print "-----------------------------------------------------------------------"
+    print 
+
 
 if __name__ == "__main__":
     if (sys.argv[1] == "test"):
@@ -470,17 +525,20 @@ if __name__ == "__main__":
         begin()
     if (sys.argv[1] == "help"):
         help()
+    if (sys.argv[1] == "yesterday"):
+        yesterday()
+
+
 '''
 To do:
-    - add a yesterday() !
-    - integrate with an SQL database, make the comment feature better. 
+    - integrate with an SQL database, make the comment feature better.
     - Add in a thing about weekly estimates.
-    - Add in a backtime manual adder. 
+    - Add in a backtime manual adder.
 
 Foundations         9 = 1.5x3 = 4.5 hours of classes, 4.5 hours of homework
 Syntactic Theory    6 = 1.5x2 = 3 hours of classes, 3 hours of homework
 CL4LRL              7 = 1.5 = 5.5 hours of homework
-Stats. in Ling.     3 = 
+Stats. in Ling.     (3)
 PSR                 6 = 1.5x2 = 3 hours of class, 3 hours of homework
 
 In total, that makes for 4.5+3+1.5+3 = 12 hours of class a week.
@@ -491,8 +549,10 @@ Hiwi: 14pw
 
 Total: 42pw
 
-8.4 hours per day. 
+8.4 hours per day.
+(Incidentally, if this is fillowed, there's no work on
+weekends, even for hiwi. That's 168 minutes a day for hiwi.)
 
-That's an 8 hour workday, which isn't so hard. 8:30-6:30 is a ten hour day. So, you have two spare hours.  
+That's an 8 hour workday, which isn't so hard. 8:30-6:30 is a ten hour day. So, you have two spare hours
 
 '''
