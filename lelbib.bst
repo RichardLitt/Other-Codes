@@ -1,7 +1,9 @@
-% BibTeX `apa' bibliography style (12-sep-98 version)
+% BibTeX Edinburgh LEL Hons bibliography style (08-02-2012 version)
+%
 % Adapted from the `apalike' style, version 0.99a; for BibTeX version 0.99a.
 % Copying of this file is allowed, provided that if you make any changes at all
-% you name it something other than `apa.bst'.
+% you name it something other than `lelbib.bst'.
+%
 % This restriction helps ensure that all copies are identical.
 %
 % This style should be used with the `apalike' LaTeX style (apalike.sty).
@@ -11,37 +13,10 @@
 % initials.  A `year' field is required for every entry, and so is either
 % an author (or in some cases, an editor) field or a key field.
 %
+% This style has been used in my own research, and I hope that others will use
+% it and let me know how it can be improved. 
+%                   Richard Littauer (richard.littauer@gmail.com)
 %
-% This style is used in the master-thesis of Sonja Weiblen in psychology.
-% I use this style also in my master-thesis in communication-science. 
-% I hope, that other people in the "soft-sciences" use this style and
-% help to improve it.
-%                       Bernd Porr (porr@neurop2.ruhr-uni-bochum.de)
-%
-%
-%
-% History:
-%   15-sep-86   (SK,OP) Original version, by Susan King and Oren Patashnik.
-%   10-nov-86   (OP)    Truncated the sort.key$ string to the correct length
-%                       in bib.sort.order to eliminate error message.
-%   24-jan-88   (OP)    Updated for BibTeX version 0.99a, from alpha.bst 0.99a;
-%                       apalike now sorts by author, then year, then title;
-%                       THIS `apalike' VERSION DOES NOT WORK WITH BIBTEX 0.98i.
-%   15-feb-92   (MW)    Updated for use with `bibgerman.sty': things like "and"
-%                       change with the language. Switch the language using the
-%                       language field: 
-%                          language = "german" | "USenglish" | "english"
-%                       Then a `\selectlanguage{...}' command will be pushed just
-%                       before the `\bibitem...' command for the entry in work.
-%   12-sep-98   (BP)    - Editors in braces: Dolittle, D. (Edit.)
-%                       - Change of the position of country and publisher:
-%                             e.g.:      New York: McGraw-Hill.
-%                             the publisher has always the last position.
-%                       - All authors are in inverse order:
-%                             e.g.:      Yussen, S.R., and Kane, P. (1935).
-%                       - Volume with ",":
-%                             e.g.:      J.exp.psych, 18, 451-460. 
-
 
 ENTRY
   { address
