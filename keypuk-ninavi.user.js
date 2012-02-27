@@ -131,7 +131,7 @@ es["See all"] = "Kame nìwotx";
 // es["Recommended Pages"] = "";
 es["Discover new games"] = "Run mipa ayuvanti";
 // es["There are no more posts to show."] = "";
-es["Find friends"] = "Run eylanit";
+es["Find friends"] = "Run eylanit";
 es["Product/Service"] = "Kìte'e";
 es["Lives in"] = "Kelku si mì";
 es["In a relationship with"] = "Muntxa susi mì";
@@ -146,6 +146,36 @@ es["Likes"] = "Susunua ayfì'u";
 es["Map"] = "Atkxkxerel";
 es["Born"] = "'Amongokx";
 es["Richard Littauer"] = "Skxawng Makto alu Taronyu";
+
+es["See friendship"] = "Tse'a tì'eylanti";
+es["Sponsored"] = "Awneyk";
+es["Create an advert"] = "Ngop nusewìt";
+es["Subscriptions"] = "";
+es["More Recent Activity"] = "";
+es["View As..."] = "Tse'a tengfya...";
+es["Add a badge to your site"] = "";
+es["Edit"] = "Latem";
+es["Timeline"] = "Krrä Payfya";
+es["Now"] = "Set";
+es["Use Facebook as:"] = "Sar Keypukit tengfya:";
+es["Search"] = "Fwew";
+es["Translations"] = "";
+es["Friend requests"] = "'Eylan ätxäle";
+es["No new requests"] = "Kea mipa ayätxäle";
+es["See all friend requests"] = "Tse'a eylanìri ayätxäleti nìwotx";
+es["Messages"] = "'Upxare";
+es["Send a new message"] = "Fpe' mipa 'upxareti";
+es["See all messages"] = "Tse'a upxare nìwotx";
+es["Notifications"] = "Ayfmawn";
+es["See all notifications"] = "Tse'a ayfmawnit nìwotx";
+es["Post"] = "Plltxe";
+es["Cancel"] = "Ftang";
+//es["Select an image or video file on your computer"] = "";
+//es["Choose file"] = "";
+//es["No file chosen"] = "";
+//es["Add year"] = "";
+
+
 
 //Basic Tag altering.
 function translate_tag(tag) {
