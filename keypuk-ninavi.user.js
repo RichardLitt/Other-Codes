@@ -89,8 +89,8 @@ es["Ask question"] = "Pawm fì'ut";
 // es["SORT"] = "Kame";
 es["Top stories"] = "Vurä fäpa";
 es["Most Recent"] = "Vur asok";
-es["Account Settings"] = "Fìpoä Tìfkeytok";
-es["Privacy Settings"] = "Le'aw 'awpoä Tìfkeytok";
+es["Account Settings"] = "Fìpoä Sìfkeytok";
+es["Privacy Settings"] = "Le'aw 'awpoä Sìfkeytok";
 es["Log out"] = "Hum";
 es["Help"] = "Srung";
 es["and"] = "sì";
@@ -143,7 +143,7 @@ es["Status"] = "Tìfkeytok";
 // es["Update info"] = "";
 es["Activity log"] = "Sìnä 'ok";
 es["Likes"] = "Susunua ayfì'u";
-es["Map"] = "Atkxkxerel";
+es["Map"] = "Atxkxerel";
 es["Born"] = "'Amongokx";
 es["Richard Littauer"] = "Skxawng Makto alu Taronyu";
 
@@ -173,9 +173,26 @@ es["Cancel"] = "Ftang";
 //es["Select an image or video file on your computer"] = "";
 //es["Choose file"] = "";
 //es["No file chosen"] = "";
-//es["Add year"] = "";
-
-
+es["Add year"] = "Sung zìsìtit";
+es["January"] = "'Awve vospxì";
+es["February"] = "Muve vospxì";
+es["March"] = "Pxeyve vospxì";
+es["April"] = "Tsìve vospxì";
+es["May"] = "Mrrve vospxì";
+es["June"] = "Puve vospxì";
+es["July"] = "Kive vospxì";
+es["August"] = "Volve vospxì";
+es["September"] = "Volawve vospxì";
+es["October"] = "Vomuve vospxì";
+es["November"] = "Vopeyve vospxì";
+es["December"] = "Vosìve vospxì";
+es["Change Cover"] = "Latem Keyit";
+es["Edit Profile Picture"] = "Latem Txina Key Relä";
+es["Chat Sounds"] = "Puslltxe Fam";
+es["Advanced Settings"] = "Ngäzìka Sìfkeytok";
+es["Go offline"] = "Kämakto!";
+es["Hide Sidebar"] = "Wan Pa'oä Payfya";
+es["Subscribed"] = "Tsuse'a";
 
 //Basic Tag altering.
 function translate_tag(tag) {
