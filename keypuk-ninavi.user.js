@@ -192,6 +192,9 @@ es["Advanced Settings"] = "Ngäzìka Sìfkeytok";
 es["Go offline"] = "Kämakto!";
 es["Hide Sidebar"] = "Wan Pa'oä Payfya";
 es["Subscribed"] = "Tsuse'a";
+es["More stories"] = "Nì'ul ayvul";
+es["Edit options"] = "Latem sìftxeyt";
+es["Find friends"] = "Fwew eylanit";
 
 //Basic Tag altering.
 function translate_tag(tag) {
