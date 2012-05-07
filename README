@@ -1,8 +1,0 @@
-These are scripts that I've generated for various reasons. They're open for anyone to use, really.
-
-- dissertation.py was my undergraduate dissertation code.
-- lelbib.bst is a LaTeX bib style to match the Edinburgh undergraduate handbook.
-- oliphaunt.py was my code for my undergraduate essay on Oliphaunt.
-- thoor.tex is my LaTeX template blank style.
-- vripper.praat is a praat script that grabs the formants needed from a transcribed file.
-
