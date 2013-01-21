@@ -1,0 +1,16 @@
+{
+  "name": "Drought: Dry up the Facebook Stream",
+  "version": "1.0",
+  "background": { 
+    "scripts": ["drought.js"] 
+  },
+  "permissions": [
+    "https://*.facebook.com/*"
+  ],
+  "browser_action": {
+    "name": "Dry up the stream"
+    //"icons": ["icon.png"]
+  },
+  "manifest_version": 2
+}
+
