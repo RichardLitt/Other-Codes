@@ -1,21 +1,21 @@
-function removeElement(parentDiv, childDiv){
-     if (childDiv == parentDiv) {
-          alert("The parent div cannot be removed.");
-     }
-     else if (document.getElementById(childDiv)) {     
-          var child = document.getElementById(childDiv);
-          var parent = document.getElementsByClassName(parentDiv);
-          parent[0].removeChild(child);
-     }
-     else {
-          alert("Child div has already been removed or does not exist.");
-          return false;
-     }
-}
-
-function doMagic() {
-    removeElement('-cx-PRIVATE-fbLayout__root','pagelet_bluebar');  
-    //removeElement('-cx-PRIVATE-fbLayout__root','globalContainer');
+function clear_page() {
+    document.getElementsByClassName('_li')[0] = document.getElementsByClassName('_li')[0].removeChild(document.getElementById('pagelet_bluebar'));
+    document.getElementsByClassName('_li')[0] = document.getElementsByClassName('_li')[0].removeChild(document.getElementById('globalContainer'));
+    document.getElementsByClassName('_li')[0] = document.getElementsByClassName('_li')[0].removeChild(document.getElementById('pagelet_sidebar'));
 };
 
-chrome.browserAction.onClicked.addListener(doMagic);
+function add_image() {
+    var mydiv = document.getElementsByClassName('_li');
+    var newcontent = document.createElement('div');
+    newcontent.innerHTML = '<img style="-webkit-user-select: none; cursor: -webkit-zoom-in;" src="http://i.imgur.com/wvunc.jpg" width="1280">';
+
+    while (newcontent.firstChild) {
+        mydiv[0].appendChild(newcontent.firstChild);
+    }
+};
+
+//chrome.browserAction.onClicked.addListener(clear_page);
+//chrome.browserAction.onClicked.addListener(add_image);
+clear_page();
+add_image();
+
