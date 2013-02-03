@@ -12,7 +12,7 @@ function add_image() {
     var mydiv = document.getElementsByClassName('_li');
     var newcontent = document.createElement('div');
     // Edit the src to point to a wallpaper you, you know, like.
-    newcontent.innerHTML = '<img style="-webkit-user-select: none; cursor: -webkit-zoom-in;" src="http://i.imgur.com/wvunc.jpg" width="1280">';
+    newcontent.innerHTML = '<div style="background-image:url(http://i.imgur.com/wvunc.jpg);height:850px;background-size:contain;"></div>';
 
     while (newcontent.firstChild) {
         mydiv[0].appendChild(newcontent.firstChild);
