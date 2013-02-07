@@ -1,0 +1,16 @@
+{
+  "name": "Drought",
+  "version": "1.0",
+  "manifest_version": 2,
+  "background": "background.html",
+  "permissions": [
+    "tabs", "https://*.facebook.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*.facebook.com/*"],
+      "js": ["drought-1440x900.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
