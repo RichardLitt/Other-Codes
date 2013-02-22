@@ -7,6 +7,8 @@ function clear_page() {
     // The sidebar might be nice, if you want to know which friends are on.
     // Of course you can detach the chat bar, in the lower right corner. I suggest doing this, as it makes it easier, and you can have it there, but not be distracted by it all of the time. If you don't detach it, you can't see friends - which might be another good option. To re-enable, simply disable the extension, and refresh. 
     document.getElementsByClassName('_li')[0] = document.getElementsByClassName('_li')[0].removeChild(document.getElementById('pagelet_sidebar'));
+    // I don't even like the translation globe. Who speaks in other languages?
+    document.getElementsByClassName('clearfix nubContainer rNubContainer')[0] = document.getElementsByClassName('clearfix nubContainer rNubContainer')[0].removeChild(document.getElementById('fbTranslationsNub'));
 };
 
 function add_image() {

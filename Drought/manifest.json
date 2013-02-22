@@ -1,34 +1,3 @@
-/*{
-  "name": "Drought: Dry up the Facebook Stream",
-  "version": "1.0",
-  "manifest_version": 2,
-  "description": "A plugin to make Facebook just a chat program.",
-  "permissions": [
-    "https://*.facebook.com/*"
-  ],
-  "browser_action": {
-    "name": "Dry up the stream"
-  },
-  "background": { 
-    "scripts": ["drought.js"] 
-  }
-}
-
-{
-"name":"Drought",
-"version":"1.0",
-"manifest_version": 2,
-"description":"Yes",
-"browser_action": {
-    "name": "Dry up the stream"
-},
-"permissions": [
-  "tabs", "https://*.facebook.com/*"
-],
-"background":[{
-"scripts":["drought.js"]
-}]} */
-
 {
   "name": "Drought",
   "version": "1.0",
