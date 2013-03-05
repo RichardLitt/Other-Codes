@@ -13,8 +13,9 @@ import random
 library = [
   'Oswald was a fag.',
   'Do it for the boat people.',
-  'brain dog is dead'
-        ]
+  'brain dog is dead',
+  'SHRIMP MAN HAD IT GOOD'
+  ]
 
 if __name__ == '__main__':
 	print library[random.randrange(0,len(library))]
