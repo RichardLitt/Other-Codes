@@ -1,0 +1,4 @@
+These are things you should learn how to do in mvim:
+
+ * Delete the contents within any `<>...</>` xml tags. Currently, this works: `s/\>.*\</\> \</c`.
+ * Copy a command from the mvim command line to the buffer
