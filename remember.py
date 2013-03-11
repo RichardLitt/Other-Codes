@@ -4,8 +4,8 @@
 import sys
 from datetime import datetime
 
-folder_path = '/Users/richardlittauer/Documents/Life'
-output_file_name = folder_path + '/remember'
+folder_path = '/Users/richardlittauer/Code/'
+output_file_name = folder_path + '/hogwarts, a history.md'
 
 def write(input):
     f = open(output_file_name,'r+')
