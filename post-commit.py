@@ -47,4 +47,4 @@ elif type_of_repo[0] == 'https':
       repo = repo.split('/')[-1]
 output = output + ' ' + repo
 print output
-#api.update_status(output)
+api.update_status(output)
