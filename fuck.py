@@ -11,7 +11,6 @@ All the licenses are on this beast.
 import random
 
 library = [
-  'Oswald was a fag.',
   'Do it for the boat people.',
   'brain dog is dead',
   'SHRIMP MAN HAD IT GOOD'
